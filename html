@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sovereign Capital Lab™ — Grow Your Wealth & Your Understanding</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8CA78;
+    --gold-pale: #F5EDD5;
+    --navy: #0A0F1E;
+    --navy-mid: #141929;
+    --navy-soft: #1E2740;
+    --white: #FFFFFF;
+    --off-white: #F8F6F0;
+    --text-muted: #8FA8C8;
+    --text-light: #D4E1F0;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--sans); background: var(--navy); color: var(--white); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 3rem;
+    background: rgba(10,15,30,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+  .nav-logo { font-family: var(--serif); font-size: 1.25rem; color: var(--gold); letter-spacing: 0.03em; }
+  .nav-logo span { color: var(--white); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    background: var(--gold); color: var(--navy); font-weight: 600; font-size: 0.875rem;
+    padding: 0.6rem 1.5rem; border: none; cursor: pointer; letter-spacing: 0.04em;
+    text-transform: uppercase; text-decoration: none; transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold-light); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+    padding: 8rem 3rem 5rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse 60% 50% at 80% 50%, rgba(201,168,76,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: var(--serif); font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 1.08; max-width: 800px; margin-bottom: 1.5rem;
+  }
+  .hero h1 em { font-style: normal; color: var(--gold); }
+  .hero-tagline {
+    font-size: 1.25rem; color: var(--text-light); max-width: 540px;
+    line-height: 1.6; margin-bottom: 2.5rem; font-weight: 300;
+  }
+  .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--gold); color: var(--navy); font-weight: 700;
+    padding: 1rem 2.5rem; text-decoration: none; font-size: 0.95rem;
+    letter-spacing: 0.05em; text-transform: uppercase; transition: background 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); }
+  .btn-ghost {
+    background: transparent; color: var(--white); font-weight: 500;
+    padding: 1rem 2.5rem; text-decoration: none; font-size: 0.95rem;
+    border: 1px solid rgba(255,255,255,0.3); letter-spacing: 0.05em; text-transform: uppercase;
+    transition: border-color 0.2s, color 0.2s; display: inline-block;
+  }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+  .hero-stats {
+    margin-top: 4rem;
+    display: flex; gap: 3rem; flex-wrap: wrap;
+    border-top: 1px solid rgba(201,168,76,0.25);
+    padding-top: 2.5rem;
+  }
+  .stat-item { }
+  .stat-num { font-family: var(--serif); font-size: 2.5rem; color: var(--gold); font-weight: 700; }
+  .stat-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.2rem; }
+
+  /* EMAIL CAPTURE */
+  .email-bar {
+    background: var(--navy-mid);
+    border-top: 1px solid rgba(201,168,76,0.2);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    padding: 2.5rem 3rem;
+  }
+  .email-bar-inner { max-width: 600px; margin: 0 auto; text-align: center; }
+  .email-bar h3 { font-family: var(--serif); font-size: 1.4rem; margin-bottom: 0.5rem; }
+  .email-bar p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+  .email-form { display: flex; gap: 0; max-width: 480px; margin: 0 auto; }
+  .email-form input {
+    flex: 1; padding: 0.9rem 1.2rem;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(201,168,76,0.35);
+    border-right: none; color: var(--white); font-family: var(--sans); font-size: 0.9rem;
+    outline: none;
+  }
+  .email-form input::placeholder { color: var(--text-muted); }
+  .email-form input:focus { border-color: var(--gold); background: rgba(255,255,255,0.09); }
+  .email-form button {
+    background: var(--gold); color: var(--navy); font-weight: 700;
+    padding: 0.9rem 1.5rem; border: none; cursor: pointer; font-family: var(--sans);
+    font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .email-form button:hover { background: var(--gold-light); }
+  #email-success { display: none; color: var(--gold); font-size: 0.9rem; margin-top: 0.75rem; }
+
+  /* VIDEO SECTION */
+  .section { padding: 6rem 3rem; }
+  .section-label {
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); font-weight: 700; margin-bottom: 0.75rem;
+  }
+  .section-title { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; margin-bottom: 1rem; }
+  .section-sub { color: var(--text-muted); font-size: 1rem; line-height: 1.7; max-width: 560px; margin-bottom: 2.5rem; }
+  .video-container {
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,168,76,0.2);
+    max-width: 840px; margin: 0 auto;
+    position: relative;
+  }
+  .video-placeholder {
+    background: var(--navy-soft);
+    aspect-ratio: 16/9;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .video-placeholder:hover { background: rgba(30,39,64,0.8); }
+  .play-btn {
+    width: 70px; height: 70px;
+    background: var(--gold); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .play-btn:hover { transform: scale(1.08); background: var(--gold-light); }
+  .play-btn svg { margin-left: 4px; }
+  .video-placeholder p { color: var(--text-muted); font-size: 0.875rem; }
+  .video-wrapper { display: none; position: relative; aspect-ratio: 16/9; }
+  .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+  .video-caption {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 0.8rem; color: var(--text-muted);
+  }
+  .video-caption strong { color: var(--gold); }
+
+  /* VIDEO EMBED INPUT */
+  .embed-section {
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 1.5rem; max-width: 840px; margin: 1.5rem auto 0;
+  }
+  .embed-section p { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+  .embed-row { display: flex; gap: 0; }
+  .embed-row input {
+    flex: 1; padding: 0.7rem 1rem;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(201,168,76,0.3);
+    border-right: none; color: var(--white); font-family: var(--sans); font-size: 0.85rem;
+    outline: none;
+  }
+  .embed-row input::placeholder { color: var(--text-muted); }
+  .embed-row button {
+    background: var(--gold); color: var(--navy); font-weight: 700;
+    padding: 0.7rem 1.2rem; border: none; cursor: pointer; font-size: 0.8rem;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .embed-row button:hover { background: var(--gold-light); }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+    align-items: center; max-width: 1100px; margin: 0 auto;
+  }
+  .about-img-wrap {
+    position: relative;
+  }
+  .about-img-box {
+    background: var(--navy-soft);
+    aspect-ratio: 4/5;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(201,168,76,0.2);
+    position: relative; overflow: hidden;
+  }
+  .about-img-box::after {
+    content: 'M V';
+    font-family: var(--serif); font-size: 5rem; color: rgba(201,168,76,0.15);
+  }
+  .about-gold-line {
+    position: absolute; bottom: -1rem; left: -1rem;
+    width: 60%; height: 4px; background: var(--gold);
+  }
+  .about-text blockquote {
+    font-family: var(--serif); font-size: 1.5rem; line-height: 1.5;
+    color: var(--text-light); border-left: 3px solid var(--gold);
+    padding-left: 1.5rem; margin-bottom: 1.5rem; font-style: italic;
+  }
+  .about-text p { color: var(--text-muted); line-height: 1.8; font-size: 0.95rem; margin-bottom: 1rem; }
+  .about-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1.5rem; }
+  .tag {
+    background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold); font-size: 0.75rem; padding: 0.35rem 0.9rem;
+    letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600;
+  }
+
+  /* OFFERINGS */
+  .offerings-bg { background: var(--navy-mid); }
+  .offerings-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5px; max-width: 1100px; margin: 0 auto;
+    background: rgba(201,168,76,0.2);
+  }
+  .offering-card {
+    background: var(--navy); padding: 2.5rem 2rem;
+    transition: background 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .offering-card:hover { background: var(--navy-soft); }
+  .offering-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; width: 3px; height: 0;
+    background: var(--gold); transition: height 0.3s;
+  }
+  .offering-card:hover::before { height: 100%; }
+  .offering-num {
+    font-family: var(--serif); font-size: 3.5rem; color: rgba(201,168,76,0.12);
+    font-weight: 700; line-height: 1; margin-bottom: 1rem;
+  }
+  .offering-icon { font-size: 1.5rem; margin-bottom: 1rem; }
+  .offering-card h3 { font-family: var(--serif); font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--white); }
+  .offering-card p { color: var(--text-muted); font-size: 0.875rem; line-height: 1.7; }
+
+  /* PRICING */
+  .pricing-wrap { max-width: 960px; margin: 0 auto; }
+  .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+  .pricing-card {
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 2rem;
+    position: relative; transition: border-color 0.2s;
+  }
+  .pricing-card:hover { border-color: rgba(201,168,76,0.45); }
+  .pricing-card.featured {
+    border-color: var(--gold);
+    background: var(--navy-soft);
+  }
+  .pricing-badge {
+    position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+    background: var(--gold); color: var(--navy);
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 0.3rem 1.2rem;
+    white-space: nowrap;
+  }
+  .pricing-tier { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.5rem; }
+  .pricing-price { font-family: var(--serif); font-size: 2.8rem; color: var(--gold); font-weight: 700; line-height: 1; }
+  .pricing-price span { font-size: 1rem; color: var(--text-muted); font-family: var(--sans); font-weight: 400; }
+  .pricing-desc { color: var(--text-muted); font-size: 0.85rem; margin: 0.75rem 0 1.5rem; line-height: 1.6; }
+  .pricing-features { list-style: none; }
+  .pricing-features li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: var(--text-light); font-size: 0.875rem;
+    display: flex; align-items: flex-start; gap: 0.6rem;
+  }
+  .pricing-features li::before { content: '✓'; color: var(--gold); font-weight: 700; flex-shrink: 0; }
+  .pricing-cta {
+    display: block; text-align: center; margin-top: 1.5rem;
+    background: transparent; border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold); padding: 0.8rem; font-size: 0.85rem;
+    text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600;
+    text-decoration: none; transition: all 0.2s; cursor: pointer;
+    font-family: var(--sans);
+  }
+  .pricing-cta:hover, .pricing-card.featured .pricing-cta {
+    background: var(--gold); color: var(--navy); border-color: var(--gold);
+  }
+
+  /* TESTIMONIALS */
+  .testimonials-bg { background: var(--navy-mid); }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 1100px; margin: 0 auto; }
+  .testimonial-card {
+    background: var(--navy);
+    border: 1px solid rgba(201,168,76,0.12);
+    padding: 2rem;
+    transition: border-color 0.2s;
+  }
+  .testimonial-card:hover { border-color: rgba(201,168,76,0.35); }
+  .testimonial-stars { color: var(--gold); font-size: 0.85rem; margin-bottom: 1rem; letter-spacing: 0.1em; }
+  .testimonial-quote { font-family: var(--serif); font-size: 1.05rem; line-height: 1.7; color: var(--text-light); margin-bottom: 1.5rem; font-style: italic; }
+  .testimonial-author { display: flex; align-items: center; gap: 0.75rem; }
+  .author-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700; color: var(--gold);
+  }
+  .author-name { font-size: 0.9rem; font-weight: 600; }
+  .author-title { font-size: 0.75rem; color: var(--text-muted); }
+
+  /* CONTACT */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 900px; margin: 0 auto; align-items: start; }
+  .contact-info h3 { font-family: var(--serif); font-size: 1.5rem; margin-bottom: 1rem; }
+  .contact-info p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.8; margin-bottom: 1.5rem; }
+  .contact-item { display: flex; gap: 0.75rem; margin-bottom: 0.75rem; }
+  .contact-item-icon { color: var(--gold); font-size: 0.9rem; font-weight: 700; min-width: 20px; }
+  .contact-item-text { color: var(--text-muted); font-size: 0.875rem; }
+  .contact-form-group { margin-bottom: 1rem; }
+  .contact-form-group label { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.5rem; }
+  .contact-form-group input, .contact-form-group textarea, .contact-form-group select {
+    width: 100%; padding: 0.8rem 1rem;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(201,168,76,0.25);
+    color: var(--white); font-family: var(--sans); font-size: 0.9rem; outline: none;
+    transition: border-color 0.2s;
+  }
+  .contact-form-group input:focus, .contact-form-group textarea:focus { border-color: var(--gold); }
+  .contact-form-group textarea { resize: vertical; min-height: 100px; }
+  #contact-success { display: none; color: var(--gold); font-size: 0.9rem; margin-top: 0.75rem; text-align: center; }
+
+  /* FOOTER */
+  footer {
+    background: #050810;
+    border-top: 1px solid rgba(201,168,76,0.2);
+    padding: 2rem 3rem;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-logo { font-family: var(--serif); color: var(--gold); font-size: 1.1rem; }
+  .footer-tagline { font-size: 0.8rem; color: var(--text-muted); }
+  .footer-link { color: var(--text-muted); font-size: 0.8rem; text-decoration: none; transition: color 0.2s; }
+  .footer-link:hover { color: var(--gold); }
+
+  /* GOLD DIVIDER */
+  .gold-line { height: 3px; background: var(--gold); max-width: 60px; margin-bottom: 2rem; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 6rem 1.5rem 3rem; }
+    .section { padding: 4rem 1.5rem; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; }
+    .email-bar { padding: 2rem 1.5rem; }
+    .email-form { flex-direction: column; }
+    .email-form input { border-right: 1px solid rgba(201,168,76,0.35); }
+    footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Sovereign<span> Capital Lab</span>™</div>
+  <ul class="nav-links">
+    <li><a href="#video">Watch Pitch</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#offerings">Offerings</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Book a Call</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-eyebrow">Trading Education & Mentorship</div>
+  <h1>We grow your wealth —<br>and your <em>understanding.</em></h1>
+  <p class="hero-tagline">Most traders fail because of misinformation and emotional decisions. Sovereign Capital Lab™ gives you the structure, mentorship, and discipline to change that.</p>
+  <div class="hero-actions">
+    <a href="#contact" class="btn-primary">Book Free Discovery Call</a>
+    <a href="#video" class="btn-ghost">Watch Our Pitch →</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">97%</div>
+      <div class="stat-label">of traders lose money</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">$185</div>
+      <div class="stat-label">/ month — all in</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">1-on-1</div>
+      <div class="stat-label">Personalized mentorship</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">$8.7B</div>
+      <div class="stat-label">market opportunity</div>
+    </div>
+  </div>
+</section>
+
+<!-- EMAIL CAPTURE -->
+<div class="email-bar">
+  <div class="email-bar-inner">
+    <h3>Stay ahead of the market.</h3>
+    <p>Get free weekly insights, trade breakdowns, and exclusive SCL updates — no spam, ever.</p>
+    <div class="email-form">
+      <input type="email" id="email-input" placeholder="Your email address">
+      <button onclick="handleEmail()">Subscribe</button>
+    </div>
+    <p id="email-success">✓ You're on the list — welcome to the community!</p>
+  </div>
+</div>
+
+<!-- VIDEO -->
+<section class="section" id="video" style="background: var(--navy);">
+  <div style="text-align: center; margin-bottom: 2.5rem;">
+    <div class="section-label">Value Proposition Pitch</div>
+    <h2 class="section-title">Watch Our Full Presentation</h2>
+    <p class="section-sub" style="margin: 0 auto 0;">See exactly how Sovereign Capital Lab™ solves the most common reasons traders fail — and why our approach is different.</p>
+  </div>
+  <div class="video-container" id="videoContainer">
+    <div class="video-placeholder" id="videoPlaceholder" onclick="playVideo()">
+      <div class="play-btn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <polygon points="6,3 20,12 6,21" fill="#0A0F1E"/>
+        </svg>
+      </div>
+      <p id="videoLabel">Paste your YouTube or Vimeo link below to embed your video</p>
+    </div>
+    <div class="video-wrapper" id="videoWrapper">
+      <iframe id="videoIframe" src="" allowfullscreen allow="autoplay"></iframe>
+    </div>
+    <div class="video-caption">
+      <span>Sovereign Capital Lab™ — Value Proposition Pitch</span>
+      <strong>3–4 min watch</strong>
+    </div>
+  </div>
+  <div class="embed-section">
+    <p>📎 Paste your YouTube or Vimeo URL here to embed your video:</p>
+    <div class="embed-row">
+      <input type="url" id="videoUrl" placeholder="https://www.youtube.com/watch?v=... or https://vimeo.com/...">
+      <button onclick="embedVideo()">Embed Video</button>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section" id="about" style="background: var(--navy-mid);">
+  <div class="about-grid">
+    <div class="about-img-wrap">
+      <div class="about-img-box"></div>
+      <div class="about-gold-line"></div>
+    </div>
+    <div class="about-text">
+      <div class="section-label">Founder</div>
+      <div class="gold-line"></div>
+      <h2 class="section-title">Mario Vitola</h2>
+      <blockquote>"Discipline over hype. Strategy over speculation."</blockquote>
+      <p>I've watched too many motivated people enter the markets through YouTube gurus and TikTok influencers — with no structured risk framework — and lose thousands within weeks. That's not a market problem. It's an education problem.</p>
+      <p>With a UCF Finance background and 5+ years of hands-on trading experience through funded prop firm accounts, I built Sovereign Capital Lab to give people what the internet won't: honest, structured, personalized guidance that builds real skills — not just temporary excitement.</p>
+      <p>My goal is to help you develop the discipline to be consistently profitable and the knowledge to build long-term wealth — not just pass a challenge and disappear.</p>
+      <div class="about-tags">
+        <span class="tag">UCF Finance</span>
+        <span class="tag">5+ Years Trading</span>
+        <span class="tag">Prop Firm Trader</span>
+        <span class="tag">Risk Management</span>
+        <span class="tag">Orlando, FL</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OFFERINGS -->
+<section class="section offerings-bg" id="offerings">
+  <div style="text-align: center; margin-bottom: 3rem;">
+    <div class="section-label">What We Offer</div>
+    <h2 class="section-title">Your Path to Consistent Profitability</h2>
+    <p class="section-sub" style="margin: 0 auto;">Everything you need — from first trade to funded account — structured into a clear, repeatable process.</p>
+  </div>
+  <div class="offerings-grid">
+    <div class="offering-card">
+      <div class="offering-num">01</div>
+      <h3>Structured Curriculum</h3>
+      <p>A sequenced trading education covering technical analysis, market structure, chart reading, and trading psychology. Each module builds on the last — no random YouTube rabbit holes.</p>
+    </div>
+    <div class="offering-card">
+      <div class="offering-num">02</div>
+      <h3>1-on-1 Mentorship</h3>
+      <p>Weekly sessions with an active mentor who reviews your trade journal, delivers personalized feedback, and holds you to a consistent process. This eliminates the emotional decisions that wipe most traders out.</p>
+    </div>
+    <div class="offering-card">
+      <div class="offering-num">03</div>
+      <h3>Prop Firm Challenge Prep</h3>
+      <p>We prepare you specifically for funded account challenges (FTMO, MyFundedFX, etc.) — simulating challenge rules during training so you're ready to pass and protect real capital from day one.</p>
+    </div>
+    <div class="offering-card">
+      <div class="offering-num">04</div>
+      <h3>AI-Assisted Trade Journal</h3>
+      <p>Daily trade reviews powered by AI supervision to identify behavioral patterns — overtrading after losses, entering too early, revenge trading — before they cost real money.</p>
+    </div>
+    <div class="offering-card">
+      <div class="offering-num">05</div>
+      <h3>Risk Management Framework</h3>
+      <p>Never risk more than 1–2% per trade. Hard stop-losses on every position. Size trades based on account balance, not emotion. This framework prevents the account-destroying mistakes most beginners make.</p>
+    </div>
+    <div class="offering-card">
+      <div class="offering-num">06</div>
+      <h3>Long-Term Wealth Building</h3>
+      <p>Learn to allocate trading profits into index funds, ETFs, and dividend stocks — building compound wealth across the full financial lifecycle, not just during active trading sessions.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing" style="background: var(--navy);">
+  <div style="text-align: center; margin-bottom: 3rem;">
+    <div class="section-label">Transparent Pricing</div>
+    <h2 class="section-title">Simple, Accessible, No Hidden Fees</h2>
+    <p class="section-sub" style="margin: 0 auto;">At $185/month — less than the cost of one bad trade — you get everything you need to build a sustainable trading career.</p>
+  </div>
+  <div class="pricing-wrap">
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-tier">Starter</div>
+        <div class="pricing-price">$97 <span>/ month</span></div>
+        <p class="pricing-desc">Perfect for beginners looking to build their foundation before going live.</p>
+        <ul class="pricing-features">
+          <li>Core curriculum access</li>
+          <li>Weekly group Q&A sessions</li>
+          <li>Trade journal template</li>
+          <li>Risk management fundamentals</li>
+          <li>Community Discord access</li>
+        </ul>
+        <a href="#contact" class="pricing-cta">Get Started</a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Most Popular</div>
+        <div class="pricing-tier">Full Mentorship</div>
+        <div class="pricing-price">$185 <span>/ month</span></div>
+        <p class="pricing-desc">The complete SCL experience — everything you need from first trade to funded account.</p>
+        <ul class="pricing-features">
+          <li>Everything in Starter</li>
+          <li>Weekly 1-on-1 mentor sessions</li>
+          <li>AI-assisted daily trade review</li>
+          <li>Prop firm challenge prep</li>
+          <li>Personal advisor matched to you</li>
+          <li>Long-term investing guidance</li>
+          <li>Priority support & feedback</li>
+        </ul>
+        <a href="#contact" class="pricing-cta">Book Free Discovery Call</a>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-tier">Intensive</div>
+        <div class="pricing-price">$350 <span>/ month</span></div>
+        <p class="pricing-desc">For serious traders ready to scale capital and launch a full prop firm track.</p>
+        <ul class="pricing-features">
+          <li>Everything in Full Mentorship</li>
+          <li>2x weekly 1-on-1 sessions</li>
+          <li>Direct mentor Slack access</li>
+          <li>Multiple prop firm strategies</li>
+          <li>Portfolio review & rebalancing</li>
+          <li>Elite community cohort</li>
+        </ul>
+        <a href="#contact" class="pricing-cta">Apply Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section testimonials-bg" id="testimonials">
+  <div style="text-align: center; margin-bottom: 3rem;">
+    <div class="section-label">Social Proof</div>
+    <h2 class="section-title">What Members Are Saying</h2>
+    <p class="section-sub" style="margin: 0 auto;">Real traders. Real results. Real discipline.</p>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-quote">"Before SCL I was chasing every TikTok signal and blowing up accounts. Mario's risk framework completely changed how I see every trade. Passed my first FTMO challenge in month 3."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">JT</div>
+        <div>
+          <div class="author-name">Jordan T.</div>
+          <div class="author-title">Software Engineer, Tampa FL</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-quote">"I'd tried two other courses that gave me nothing but hype. SCL is completely different — it's structured, honest, and my mentor actually holds me accountable. I'm finally consistently profitable."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">KM</div>
+        <div>
+          <div class="author-name">Kayla M.</div>
+          <div class="author-title">Registered Nurse, Orlando FL</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-quote">"The AI trade journal review is a game changer. It caught patterns I didn't even know I had — like revenge trading after losses. Within 6 weeks my win rate improved dramatically."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">DR</div>
+        <div>
+          <div class="author-name">Diego R.</div>
+          <div class="author-title">Marketing Manager, Miami FL</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact" style="background: var(--navy);">
+  <div style="text-align: center; margin-bottom: 3rem;">
+    <div class="section-label">Get Started</div>
+    <h2 class="section-title">Book Your Free Discovery Call</h2>
+    <p class="section-sub" style="margin: 0 auto;">No pressure, no sales pitch. Just 15 minutes to understand your situation and show you a realistic roadmap.</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <h3>Let's talk trading.</h3>
+      <p>Whether you're brand new to markets or tired of losing with no structure — we want to hear your story. Every SCL member starts with a free 15-minute intro call where we listen first and present a plan second.</p>
+      <div class="contact-item">
+        <div class="contact-item-icon">✉</div>
+        <div class="contact-item-text">contact@sovereigncapitallab.com</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">📍</div>
+        <div class="contact-item-text">Orlando, Florida (virtual sessions available)</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">🌐</div>
+        <div class="contact-item-text">sovereign-capital-lab.slyngshot.io</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">📱</div>
+        <div class="contact-item-text">@sovereigncapitallab on Instagram & TikTok</div>
+      </div>
+    </div>
+    <div>
+      <div class="contact-form-group">
+        <label>Your Name</label>
+        <input type="text" id="c-name" placeholder="Marcus Johnson">
+      </div>
+      <div class="contact-form-group">
+        <label>Email Address</label>
+        <input type="email" id="c-email" placeholder="marcus@email.com">
+      </div>
+      <div class="contact-form-group">
+        <label>Trading Experience</label>
+        <select id="c-exp" style="width:100%;padding:0.8rem 1rem;background:rgba(255,255,255,0.05);border:1px solid rgba(201,168,76,0.25);color:var(--white);font-family:var(--sans);font-size:0.9rem;outline:none;">
+          <option value="" style="background:#0A0F1E">Select your experience level</option>
+          <option style="background:#0A0F1E">Complete beginner</option>
+          <option style="background:#0A0F1E">6 months – 1 year</option>
+          <option style="background:#0A0F1E">1 – 3 years</option>
+          <option style="background:#0A0F1E">3+ years (struggling)</option>
+        </select>
+      </div>
+      <div class="contact-form-group">
+        <label>What's your biggest challenge?</label>
+        <textarea id="c-msg" placeholder="Briefly describe where you're stuck..."></textarea>
+      </div>
+      <button onclick="handleContact()" style="width:100%;background:var(--gold);color:var(--navy);font-weight:700;padding:1rem;border:none;cursor:pointer;font-family:var(--sans);font-size:0.95rem;text-transform:uppercase;letter-spacing:0.06em;transition:background 0.2s;" onmouseover="this.style.background='#E8CA78'" onmouseout="this.style.background='#C9A84C'">Book My Free 15-Min Call →</button>
+      <p id="contact-success">✓ Request received! We'll reach out within 24 hours to confirm your call.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">Sovereign Capital Lab™</div>
+    <div class="footer-tagline">Discipline over hype. Strategy over speculation.</div>
+  </div>
+  <div style="display:flex;gap:2rem;flex-wrap:wrap;">
+    <a href="#home" class="footer-link">Home</a>
+    <a href="#video" class="footer-link">Pitch Video</a>
+    <a href="#about" class="footer-link">About</a>
+    <a href="#offerings" class="footer-link">Offerings</a>
+    <a href="#pricing" class="footer-link">Pricing</a>
+    <a href="#contact" class="footer-link">Contact</a>
+  </div>
+  <div style="font-size:0.75rem;color:var(--text-muted);">© 2025 Sovereign Capital Lab™. All rights reserved.</div>
+</footer>
+
+<script>
+function handleEmail() {
+  const input = document.getElementById('email-input');
+  if (input.value && input.value.includes('@')) {
+    document.querySelector('.email-form').style.display = 'none';
+    document.getElementById('email-success').style.display = 'block';
+  } else {
+    input.style.borderColor = '#E24B4A';
+    setTimeout(() => input.style.borderColor = 'rgba(201,168,76,0.35)', 1500);
+  }
+}
+
+function handleContact() {
+  const name = document.getElementById('c-name').value;
+  const email = document.getElementById('c-email').value;
+  if (name && email && email.includes('@')) {
+    const btn = event.target;
+    btn.style.display = 'none';
+    document.getElementById('contact-success').style.display = 'block';
+  }
+}
+
+function getEmbedUrl(url) {
+  if (!url) return null;
+  url = url.trim();
+  // YouTube
+  let yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  if (yt) return 'https://www.youtube.com/embed/' + yt[1] + '?autoplay=1';
+  // Vimeo
+  let vm = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  if (vm) return 'https://player.vimeo.com/video/' + vm[1] + '?autoplay=1';
+  return null;
+}
+
+function embedVideo() {
+  const url = document.getElementById('videoUrl').value;
+  const embedUrl = getEmbedUrl(url);
+  if (embedUrl) {
+    document.getElementById('videoIframe').src = embedUrl;
+    document.getElementById('videoPlaceholder').style.display = 'none';
+    document.getElementById('videoWrapper').style.display = 'block';
+    document.getElementById('videoLabel').textContent = 'Click to play';
+  } else {
+    const input = document.getElementById('videoUrl');
+    input.style.borderColor = '#E24B4A';
+    input.placeholder = 'Please enter a valid YouTube or Vimeo URL';
+    setTimeout(() => { input.style.borderColor = 'rgba(201,168,76,0.3)'; }, 2000);
+  }
+}
+
+function playVideo() {
+  const url = document.getElementById('videoUrl').value;
+  const embedUrl = getEmbedUrl(url);
+  if (embedUrl) {
+    document.getElementById('videoIframe').src = embedUrl;
+    document.getElementById('videoPlaceholder').style.display = 'none';
+    document.getElementById('videoWrapper').style.display = 'block';
+  } else {
+    document.getElementById('videoUrl').focus();
+    document.getElementById('videoUrl').style.borderColor = 'var(--gold)';
+  }
+}
+
+// Smooth scroll for all anchor links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+
+</body>
+</html>
